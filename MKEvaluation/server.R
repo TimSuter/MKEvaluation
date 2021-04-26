@@ -8,41 +8,25 @@
 #
 
 library(shiny)
+library(ggplot2)
 
 # Define server logic to read selected file ----
 server <- function(input, output) {
-    
     output$contents <- renderTable({
-        
         # input$file1 will be NULL initially. After the user selects
-        # and uploads a file, head of that data file by default,
-        # or all rows if selected, will be shown.
+        # and uploads a file, it will be a data frame with 'name',
+        # 'size', 'type', and 'datapath' columns. The 'datapath'
+        # column will contain the local filenames where the data can
+        # be found.
+        inFile <- input$file1
         
-        req(input$file1)
+        if (is.null(inFile))
+            return(NULL)
         
-        # when reading semicolon separated files,
-        # having a comma separator causes `read.csv` to error
-        tryCatch(
-            {
-                df <- read.csv(input$file1$datapath,
-                               header = input$header,
-                               sep = input$sep,
-                               quote = input$quote)
-            },
-            error = function(e) {
-                # return a safeError if a parsing error occurs
-                stop(safeError(e))
-            }
-        )
+        read.csv(inFile$datapath, header = input$header, sep = ";")
         
-        if(input$disp == "head") {
-            return(head(df))
-        }
-        else {
-            return(df)
-        }
+        #Clean up data
         
     })
-    
 }
 
