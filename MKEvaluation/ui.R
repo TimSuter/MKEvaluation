@@ -23,7 +23,8 @@ ui <- fluidPage(
             ),
         ),
         mainPanel(
-            tableOutput("contents")
+            tableOutput("contents"),
+            tableOutput("dimensions")
         )
     )
 )

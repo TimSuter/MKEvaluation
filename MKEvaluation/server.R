@@ -28,5 +28,13 @@ server <- function(input, output) {
         dataframe()
         })
     
+    output$dimensions <- renderTable({
+        dims <- dim(dataframe())
+    })
+    
+    observeEvent(input$file1,{
+        print(paste0("File loaded: ", input$file1$name))
+        print(paste0(toString(dim(dataframe()))))
+    })
 }
 
