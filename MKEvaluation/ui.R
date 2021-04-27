@@ -21,8 +21,6 @@ ui <- fluidPage(
                           "text/comma-separated-values,text/plain",
                           ".csv")
             ),
-            tags$hr(),
-            checkboxInput("header", "Header", TRUE)
         ),
         mainPanel(
             tableOutput("contents")

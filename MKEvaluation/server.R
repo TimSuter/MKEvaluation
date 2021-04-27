@@ -12,21 +12,21 @@ library(ggplot2)
 
 # Define server logic to read selected file ----
 server <- function(input, output) {
-    output$contents <- renderTable({
+    dataframe <- reactive({
         # input$file1 will be NULL initially. After the user selects
         # and uploads a file, it will be a data frame with 'name',
         # 'size', 'type', and 'datapath' columns. The 'datapath'
         # column will contain the local filenames where the data can
         # be found.
         inFile <- input$file1
-        
         if (is.null(inFile))
             return(NULL)
-        
-        read.csv(inFile$datapath, header = input$header, sep = ";")
-        
-        #Clean up data
-        
+        data <- read.csv(inFile$datapath, header = F, sep = ";")
     })
+    
+    output$contents <- renderTable({
+        dataframe()
+        })
+    
 }
 
